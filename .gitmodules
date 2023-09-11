@@ -1,0 +1,6 @@
+[submodule "3rd/tree-sitter"]
+	path = 3rd/tree-sitter
+	url = https://github.com/tree-sitter/tree-sitter.git
+[submodule "3rd/tree-sitter-c"]
+	path = 3rd/tree-sitter-c
+	url = https://github.com/tree-sitter/tree-sitter-c.git
