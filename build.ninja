@@ -1,13 +1,9 @@
 cflags = -Wall -Wextra -I 3rd/tree-sitter/lib/include -Werror=implicit-function-declaration
-ldflags = -Wl,-rpath 3rd/tree-sitter
 CC = gcc
 builddir = build
 
 rule cc
     command = mkdir -p $$(dirname $out) && $CC $cflags -c $in -o $out
-
-rule build_ts
-    command = make -C 3rd/tree-sitter
 
 rule link
     command = $CC $ldflags $in -o $out
@@ -17,11 +13,12 @@ rule run_test
 
 build all : phony $builddir/mcc
 
-build 3rd/tree-sitter/libtree-sitter.so : build_ts
-
 build $builddir/mcc.o : cc mcc.c
 build $builddir/3rd/tree-sitter-c/src/parser.o : cc 3rd/tree-sitter-c/src/parser.c
-build $builddir/mcc : link $builddir/mcc.o $builddir/3rd/tree-sitter-c/src/parser.o 3rd/tree-sitter/libtree-sitter.so
+build $builddir/3rd/tree-sitter/lib/src/lib.o : cc 3rd/tree-sitter/lib/src/lib.c
+    cflags = $cflags -I 3rd/tree-sitter/lib/src
+
+build $builddir/mcc : link $builddir/mcc.o $builddir/3rd/tree-sitter-c/src/parser.o $builddir/3rd/tree-sitter/lib/src/lib.o
 
 build run_test : run_test | all
 build test : phony run_test 
