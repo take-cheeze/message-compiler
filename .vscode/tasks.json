@@ -10,5 +10,7 @@
     "presentation": {
         "revealProblems": "onProblem",
         "clear": true
-    }
+    },
+    "problemMatcher": [
+    ]
 }
